@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>todos</title>
+	<style type="text/css">
+		html,body,div {
+			padding: 0;margin: 0;
+		}
+		html,body{ height:100%;}
+		body {
+			background-color: #eee;
+		}
+		header {
+			text-align: center;
+		}
+		#app {
+			width: 440px;
+			margin: 0 auto;
+		}
+		.main {
+			background-color: #fff;
+			border-top: 4px solid #977;
+			box-shadow: 0 0 3px #000;
+		}
+		.add-todos {
+			height: 40px;
+			background-color: #eee;
+		}
+		.hide-todos {
+			display: inline-block;
+			width: 39px;
+			height: 39px;
+			text-align: center;
+			line-height: 40px;
+			vertical-align: top;
+			transform: rotate(90deg);
+			cursor: pointer;
+		}
+		.add-input-area {
+			display: inline-block;
+			width: 399px;
+			height: 40px;
+			border-left: 1px solid #977;
+		}
+		.add-input {
+			width: 380px;
+			height: 40px;
+			border: none;
+			padding: 0 10px;
+			outline: none;
+			background-color: #eee;
+			font-size: 20px;
+			color: #888;
+		}
+		.todo {
+			position: relative;
+			border-bottom: 1px solid #ddd;
+		}
+		.done-icon {
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			width: 39px;
+			display: inline-block;
+			line-height: 40px;
+			text-align: center;
+			cursor: pointer;
+		}
+		.todo-content {
+			width: 375px;
+			height: 40px;
+			margin: 0 15px 0 39px;
+			padding-left:10px;
+			display: inline-block;
+			vertical-align: top;
+			line-height: 40px;
+			border-left: 1px solid #977;
+			overflow: hidden;
+		}
+		.del {
+			position: absolute;
+			top: 11px;
+			right: 10px;
+			cursor: pointer;
+		}
+		.change-input-area {
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 40px;
+			visibility: hidden;
+		}
+		.change-input {
+			width: 390px;
+			height: 40px;
+			margin: 0;
+			padding: 0 0 0 10px;
+			outline: none;
+			border: none;
+			background-color: #f5f5f5;
+		}
+		.done .todo-content {
+			text-decoration: line-through;
+			color: #999;
+		}
+		.done .done-icon {
+			color: #7c7;
+		}
+		.hide {
+			display: none;
+		}
+		.show-witch {
+			display: inline-block;
+			border: 1px solid transparent;
+			border-radius: 3px;
+			cursor: pointer;
+
+		}
+		.show-witch.shown {
+			color: #fff;
+			background-color: #9c9;
+		}
+		.is-hidden {
+			animation: move .3s ease infinite alternate;
+		}
+		@keyframes move{
+			from {
+				transform: translateY(-3px) rotate(90deg);
+			}
+			to {
+				transform: translateY(3px) rotate(90deg);
+			}
+		}
+	</style>
+</head>
+<body>
+	<div id="app">
+		<header>
+			<h3>TODOS</h3>
+		</header>
+		<div class="main">
+			<div class="add-todos">
+				<div class="hide-todos" :class="{'is-hidden': hideAll}" @click="hideTodos"><span class="hide-icon">>></span></div><div class="add-input-area">
+					<input type="text" class="add-input" name="add-todos" @keydown.enter='addTodos' placeholder="What needs to be done?">
+				</div>
+			</div>
+			<div class="todo-list" :class="{hide: hideAll}">
+				<todo class="todo" v-for="(todo,index) in todos" :todo="todo" :index="index" :witch="witch" @save="saveTodos" @del="delTodos(index)"></todo>
+			</div>
+			<div class="footer">
+				<span>{{left}} left</span>
+				<div>
+					<span class="show-witch show-all" :class="{'shown': all}" @click="showAll">All</span>
+					<span class="show-witch show-active" :class="{'shown': active}" @click="showActive">Active</span>
+					<span class="show-witch show-done" :class="{'shown': done}" @click="showDone">Done</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="./node_modules/vue/dist/vue.js"></script>
+	<script src="app.js"></script>
+</body>
+</html>
